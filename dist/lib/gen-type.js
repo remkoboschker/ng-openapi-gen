@@ -25,7 +25,7 @@ class GenType {
         this.imports = this._imports.toArray();
         this.additionalDependencies = [...this._additionalDependencies];
     }
-    collectImports(schema, additional) {
+    collectImports(schema, additional = false, processOneOf = false) {
         if (!schema) {
             return;
         }
@@ -42,6 +42,9 @@ class GenType {
             schema = schema;
             (schema.allOf || []).forEach(i => this.collectImports(i, additional));
             (schema.anyOf || []).forEach(i => this.collectImports(i, additional));
+            if (processOneOf) {
+                (schema.oneOf || []).forEach(i => this.collectImports(i, additional));
+            }
             if (schema.items) {
                 this.collectImports(schema.items, additional);
             }

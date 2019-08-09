@@ -30,9 +30,9 @@ class Service extends gen_type_1.GenType {
                 }
             }
             for (const response of operation.allResponses) {
-                const additional = response === operation.successResponse ? undefined : true;
+                const additional = response !== operation.successResponse;
                 for (const content of response.content) {
-                    this.collectImports(content.spec.schema, additional);
+                    this.collectImports(content.spec.schema, additional, true);
                 }
             }
         }
